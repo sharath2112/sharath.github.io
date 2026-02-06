@@ -1,9 +1,334 @@
 <!doctype html>
-<html>
-  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Valentine</title></head>
-  <body style="font-family:Arial; padding:40px;">
-    <h1>It works ❤️</h1>
-    <p>Sharath’s Valentine site is live.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Valentine’s Day ❤️</title>
+  <style>
+    :root{
+      --bg1:#12001a;
+      --bg2:#2a0a2f;
+      --accent:#ff4d8d;
+      --accent2:#ffd1e1;
+      --card: rgba(255,255,255,.10);
+      --border: rgba(255,255,255,.16);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(255,77,141,.22), transparent 60%),
+        radial-gradient(1000px 800px at 85% 25%, rgba(255,209,225,.18), transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+
+    .wrap{max-width:980px;margin:0 auto;padding:26px 16px 80px}
+
+    .hero{
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.05));
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      padding:28px 18px;
+    }
+    .glow{
+      position:absolute; inset:-120px -160px auto auto;
+      width:360px;height:360px;border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,77,141,.55), transparent 60%);
+      transform: rotate(18deg);
+      pointer-events:none;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(28px, 4vw, 46px);
+      letter-spacing:-.02em;
+      line-height:1.05;
+    }
+    .sub{
+      margin:12px 0 0;
+      max-width:70ch;
+      color: var(--muted);
+      line-height:1.6;
+      font-size: 15px;
+    }
+    .pill{
+      margin-top:14px;
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:999px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .pill b{color:var(--accent2)}
+
+    .grid{
+      margin-top:16px;
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:12px;
+    }
+    @media (max-width: 720px){
+      .grid{grid-template-columns: 1fr}
+    }
+
+    .opt{
+      border-radius: 20px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 16px 40px rgba(0,0,0,.25);
+      padding:16px;
+      text-align:left;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+    }
+    .opt:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.11);
+      border-color: rgba(255,255,255,.22);
+    }
+    .opt .label{
+      display:inline-flex;
+      padding:8px 12px;
+      border-radius:999px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.82);
+      font-size: 12px;
+      margin-bottom:10px;
+    }
+    .opt h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:-.01em;
+    }
+    .opt p{
+      margin:8px 0 0;
+      color: var(--muted);
+      line-height:1.5;
+      font-size: 14px;
+    }
+
+    .panel{
+      margin-top:14px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+      padding:18px;
+      min-height: 110px;
+    }
+    .panel h3{margin:0 0 8px;font-size:16px}
+    .panel .msg{margin:0;color:rgba(255,255,255,.86);line-height:1.65}
+
+    .row{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 14px;
+      cursor:pointer;
+      font-weight:700;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
+      color: rgba(255,255,255,.88);
+      transition: transform .12s ease, background .12s ease;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.14)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(255,77,141,.95), rgba(255,119,179,.78));
+      border-color: rgba(255,77,141,.5);
+      color: #1a0010;
+    }
+    .small{color:var(--muted);font-size:12px}
+
+    /* floating hearts */
+    .heart{
+      position:fixed;
+      bottom:-40px;
+      font-size: 18px;
+      opacity:.75;
+      animation: floatUp 7s linear infinite;
+      pointer-events:none;
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,.35));
+    }
+    @keyframes floatUp{
+      0%{transform: translateY(0) translateX(0) rotate(0deg); opacity:0}
+      10%{opacity:.75}
+      100%{transform: translateY(-120vh) translateX(18px) rotate(28deg); opacity:0}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="glow"></div>
+
+      <h1>Happy Valentine’s Day, <span style="color:var(--accent2)">My Love</span> ❤️</h1>
+
+      <!-- MAIN MESSAGE (edit this text if you want) -->
+      <p class="sub">
+        This little website is just for you. Thank you for being my happiness, my peace, and my forever.
+        I love you more than words can ever say.
+      </p>
+
+      <div class="pill">
+        Made with <b>love</b> • Tap an option below 💖
+      </div>
+
+      <div class="row">
+        <div class="small">
+          🎵 Background music: <b id="musicStatus">Off</b>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn primary" id="musicBtn">Play Music ▶</button>
+          <button class="btn" id="stopBtn">Stop ⏸</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 OPTIONS -->
+    <div class="grid" style="margin-top:16px;">
+      <div class="opt" onclick="showOption(1)">
+        <div class="label">Op 1</div>
+        <h2>Surprise 🎁</h2>
+        <p>Tap to see your surprise.</p>
+      </div>
+
+      <div class="opt" onclick="showOption(2)">
+        <div class="label">Op 2</div>
+        <h2>Love message 💌</h2>
+        <p>Tap for a message from my heart.</p>
+      </div>
+
+      <div class="opt" onclick="showOption(3)">
+        <div class="label">Op 3</div>
+        <h2>Overseas tour ✈️</h2>
+        <p>Tap to see our travel plan.</p>
+      </div>
+
+      <div class="opt" onclick="showOption(4)">
+        <div class="label">Op 4</div>
+        <h2>One more thing 😄</h2>
+        <p>Tap for a cute final note.</p>
+      </div>
+    </div>
+
+    <!-- RESULT PANEL -->
+    <div class="panel" id="result" style="margin-top:14px;">
+      <h3>Choose an option ❤️</h3>
+      <p class="msg">Tap Op 1 / Op 2 / Op 3 / Op 4 above.</p>
+    </div>
+  </div>
+
+  <!-- Background music (upload MP3 to assets/love.mp3) -->
+  <audio id="bgm" loop>
+    <source src="assets/love.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Option messages exactly as you requested
+    function showOption(n){
+      const box = document.getElementById("result");
+
+      if(n === 1){
+        box.innerHTML = `
+          <h3>Surprise 🎁</h3>
+          <p class="msg">Surprise baby… <b>iPhone</b> 📱❤️</p>
+        `;
+      }
+      if(n === 2){
+        box.innerHTML = `
+          <h3>Love message 💌</h3>
+          <p class="msg">
+            I love you for who you are, and for how you make me feel.<br>
+            You are my favorite person, my best friend, my forever. ❤️
+          </p>
+        `;
+      }
+      if(n === 3){
+        box.innerHTML = `
+          <h3>Overseas tour ✈️</h3>
+          <p class="msg">
+            Pack your bags 😍<br>
+            We’re going on an <b>overseas tour</b> together — new memories, new photos, and lots of love. 🌍❤️
+          </p>
+        `;
+      }
+      if(n === 4){
+        box.innerHTML = `
+          <h3>One more thing 😄</h3>
+          <p class="msg">I know you need an <b>iPhone</b> 😌📱❤️</p>
+        `;
+      }
+
+      // small smooth scroll to results on mobile
+      box.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    // Floating hearts
+    const hearts = ["❤️","💗","💖","💘","💕"];
+    function spawnHeart(){
+      const el = document.createElement("div");
+      el.className = "heart";
+      el.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+      el.style.left = Math.floor(Math.random()*100) + "vw";
+      el.style.animationDuration = (5 + Math.random()*5).toFixed(1) + "s";
+      el.style.fontSize = (14 + Math.random()*18).toFixed(0) + "px";
+      document.body.appendChild(el);
+      setTimeout(()=> el.remove(), 9000);
+    }
+    setInterval(spawnHeart, 800);
+
+    // Music controls
+    const bgm = document.getElementById("bgm");
+    const musicBtn = document.getElementById("musicBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const status = document.getElementById("musicStatus");
+
+    async function playMusic(){
+      try{
+        await bgm.play(); // browsers require user interaction (button click) -> this is perfect
+        status.textContent = "On";
+        musicBtn.textContent = "Playing 🎶";
+      } catch(e){
+        status.textContent = "Blocked (tap again)";
+        musicBtn.textContent = "Play Music ▶";
+      }
+    }
+
+    function stopMusic(){
+      bgm.pause();
+      bgm.currentTime = 0;
+      status.textContent = "Off";
+      musicBtn.textContent = "Play Music ▶";
+    }
+
+    musicBtn.addEventListener("click", playMusic);
+    stopBtn.addEventListener("click", stopMusic);
+  </script>
+</body>
 </html>
