@@ -23,34 +23,37 @@ margin:auto;
 
 h1{
 font-size:42px;
+margin-bottom:10px;
 }
 
-.message{
+.subtitle{
 font-size:18px;
 margin-bottom:30px;
 }
 
 .option{
 background:rgba(255,255,255,0.15);
-margin:10px;
-padding:15px;
+margin:12px;
+padding:18px;
 border-radius:12px;
 cursor:pointer;
-font-size:20px;
+font-size:22px;
+transition:0.3s;
 }
 
 .option:hover{
-background:rgba(255,255,255,0.25);
+background:rgba(255,255,255,0.3);
+transform:scale(1.05);
 }
 
 .result{
 margin-top:30px;
-font-size:20px;
+font-size:22px;
 }
 
 .button{
 margin-top:15px;
-padding:12px 20px;
+padding:12px 25px;
 font-size:18px;
 border:none;
 border-radius:10px;
@@ -83,24 +86,23 @@ to{transform:translateY(-100vh);opacity:0;}
 
 <h1>Happy Valentine’s Day ❤️</h1>
 
-<div class="message">
-This website is made only for you.  
-Click an option below to explore surprises made with love ❤️
+<div class="subtitle">
+Choose one option to reveal your surprise 🎁
 </div>
 
-<div class="option" onclick="showOption(1)">
+<div class="option" onclick="selectOption(1)">
 Option 1
 </div>
 
-<div class="option" onclick="showOption(2)">
+<div class="option" onclick="selectOption(2)">
 Option 2
 </div>
 
-<div class="option" onclick="showOption(3)">
+<div class="option" onclick="selectOption(3)">
 Option 3
 </div>
 
-<div class="option" onclick="showOption(4)">
+<div class="option" onclick="selectOption(4)">
 Option 4
 </div>
 
@@ -114,41 +116,44 @@ Option 4
 
 <script>
 
-function showOption(n){
+let selectedOption = null;
 
-const result=document.getElementById("result");
+function selectOption(n){
 
-if(n==1){
-result.innerHTML=`
+selectedOption = n;
+
+document.getElementById("result").innerHTML = `
 Click here to know the surprise<br>
 <button class="button" onclick="revealSurprise()">Click Here ❤️</button>
 `;
-}
-
-if(n==2){
-result.innerHTML=`
-You are my heart, my happiness, and my forever ❤️
-`;
-}
-
-if(n==3){
-result.innerHTML=`
-We are going for an overseas tour together ✈️❤️
-`;
-}
-
-if(n==4){
-result.innerHTML=`
-I know you need iPhone 😄📱❤️
-`;
-}
 
 }
 
 function revealSurprise(){
-document.getElementById("result").innerHTML="Surprise… iPhone 📱❤️";
+
+let message = "";
+
+if(selectedOption == 1){
+message = "Surprise… iPhone 📱❤️";
 }
 
+if(selectedOption == 2){
+message = "A beautiful love message from my heart to yours ❤️";
+}
+
+if(selectedOption == 3){
+message = "We are going for an overseas tour together ✈️❤️";
+}
+
+if(selectedOption == 4){
+message = "I know you need iPhone 😄📱❤️";
+}
+
+document.getElementById("result").innerHTML = message;
+
+}
+
+// floating hearts
 function createHeart(){
 const heart=document.createElement("div");
 heart.className="heart";
@@ -157,10 +162,9 @@ heart.style.left=Math.random()*100+"vw";
 document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),6000);
 }
-
 setInterval(createHeart,500);
 
-// auto play music after first click anywhere
+// play music on first click
 document.body.addEventListener("click",()=>{
 document.getElementById("music").play().catch(()=>{});
 },{once:true});
