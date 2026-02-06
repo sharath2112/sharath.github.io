@@ -6,77 +6,111 @@
 <title>Happy Valentine’s Day ❤️</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background: linear-gradient(135deg, #ff4d8d, #6a0dad);
-color:white;
-text-align:center;
-overflow-x:hidden;
-}
+  body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background: linear-gradient(135deg, #ff4d8d, #6a0dad);
+    color:white;
+    text-align:center;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
 
-.container{
-padding:60px 20px;
-max-width:800px;
-margin:auto;
-}
+  .container{
+    padding:60px 20px;
+    max-width:820px;
+    margin:auto;
+  }
 
-h1{
-font-size:42px;
-margin-bottom:10px;
-}
+  h1{
+    font-size:42px;
+    margin:0 0 10px;
+  }
 
-.subtitle{
-font-size:18px;
-margin-bottom:30px;
-}
+  .subtitle{
+    font-size:18px;
+    margin: 0 auto 26px;
+    line-height: 1.6;
+    max-width: 720px;
+    opacity: .95;
+  }
 
-.option{
-background:rgba(255,255,255,0.15);
-margin:12px;
-padding:18px;
-border-radius:12px;
-cursor:pointer;
-font-size:22px;
-transition:0.3s;
-}
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-top: 8px;
+  }
 
-.option:hover{
-background:rgba(255,255,255,0.3);
-transform:scale(1.05);
-}
+  .option{
+    background:rgba(255,255,255,0.15);
+    padding:18px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:22px;
+    transition:0.25s;
+    user-select:none;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
 
-.result{
-margin-top:30px;
-font-size:22px;
-}
+  .option:hover{
+    background:rgba(255,255,255,0.28);
+    transform:scale(1.02);
+  }
 
-.button{
-margin-top:15px;
-padding:12px 25px;
-font-size:18px;
-border:none;
-border-radius:10px;
-background:white;
-color:#ff4d8d;
-cursor:pointer;
-}
+  .option.locked{
+    cursor:not-allowed;
+    opacity:0.55;
+    filter: grayscale(15%);
+    transform:none !important;
+  }
 
-.button:hover{
-background:#ffe6f0;
-}
+  .option.chosen{
+    background:rgba(255,255,255,0.30);
+    border-color: rgba(255,255,255,0.35);
+  }
 
-.heart{
-position:fixed;
-bottom:-20px;
-font-size:20px;
-animation: floatUp 6s linear infinite;
-}
+  .result{
+    margin-top:26px;
+    font-size:20px;
+    line-height:1.6;
+    min-height: 90px;
+  }
 
-@keyframes floatUp{
-from{transform:translateY(0);opacity:1;}
-to{transform:translateY(-100vh);opacity:0;}
-}
+  .button{
+    margin-top:14px;
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    background:white;
+    color:#ff4d8d;
+    cursor:pointer;
+    font-weight:700;
+  }
+
+  .button:hover{
+    background:#ffe6f0;
+  }
+
+  .hint{
+    margin-top:10px;
+    font-size: 13px;
+    opacity:.85;
+  }
+
+  .heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:20px;
+    animation: floatUp 6s linear infinite;
+    pointer-events:none;
+  }
+
+  @keyframes floatUp{
+    from{transform:translateY(0);opacity:1;}
+    to{transform:translateY(-110vh);opacity:0;}
+  }
 </style>
 </head>
 
@@ -84,91 +118,147 @@ to{transform:translateY(-100vh);opacity:0;}
 
 <div class="container">
 
-<h1>Happy Valentine’s Day ❤️</h1>
+  <h1>Happy Valentine’s Day ❤️</h1>
 
-<div class="subtitle">
-Choose one option to reveal your surprise 🎁
+  <div class="subtitle">
+    My love ❤️,<br><br>
+    From the moment you came into my life, everything became more beautiful.<br>
+    You are my happiness, my strength, and my forever.<br><br>
+    This little website is just a small way to show how special you are to me.<br>
+    Today, I want you to choose <b>one</b> option and discover a surprise made with all my love.<br><br>
+    No matter which option you choose… remember,<br>
+    <b>you are my greatest gift in life</b> ❤️
+    <br><br>
+    Choose one option to reveal your surprise 🎁
+  </div>
+
+  <div class="options">
+    <div class="option" id="opt1" onclick="selectOption(1)">Option 1</div>
+    <div class="option" id="opt2" onclick="selectOption(2)">Option 2</div>
+    <div class="option" id="opt3" onclick="selectOption(3)">Option 3</div>
+    <div class="option" id="opt4" onclick="selectOption(4)">Option 4</div>
+  </div>
+
+  <div class="result" id="result"></div>
+  <div class="hint" id="hint"></div>
+
 </div>
 
-<div class="option" onclick="selectOption(1)">
-Option 1
-</div>
-
-<div class="option" onclick="selectOption(2)">
-Option 2
-</div>
-
-<div class="option" onclick="selectOption(3)">
-Option 3
-</div>
-
-<div class="option" onclick="selectOption(4)">
-Option 4
-</div>
-
-<div class="result" id="result"></div>
-
-</div>
-
+<!-- Background music (upload your mp3 to assets/love.mp3) -->
 <audio id="music" loop>
-<source src="assets/love.mp3" type="audio/mpeg">
+  <source src="assets/love.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+  // =========================
+  //  ONE-CHOICE LOCK BEHAVIOR
+  // =========================
+  let selectedOption = null;
+  let locked = false; // once revealed, everything locks permanently for this browser
 
-let selectedOption = null;
+  const resultEl = document.getElementById("result");
+  const hintEl = document.getElementById("hint");
+  const optionEls = [1,2,3,4].map(n => document.getElementById(`opt${n}`));
 
-function selectOption(n){
+  function setLockedUI(chosen){
+    optionEls.forEach((el, idx) => {
+      const n = idx + 1;
+      el.classList.add("locked");
+      el.onclick = null;
+      if(n === chosen) el.classList.add("chosen");
+    });
+  }
 
-selectedOption = n;
+  function selectOption(n){
+    if(locked) return;
 
-document.getElementById("result").innerHTML = `
-Click here to know the surprise<br>
-<button class="button" onclick="revealSurprise()">Click Here ❤️</button>
-`;
+    selectedOption = n;
+    // visually mark selection (but not locked yet)
+    optionEls.forEach((el, idx) => {
+      const num = idx + 1;
+      el.classList.toggle("chosen", num === n);
+    });
 
-}
+    resultEl.innerHTML = `
+      Click here to know the surprise<br>
+      <button class="button" onclick="revealSurprise()">Click Here ❤️</button>
+    `;
+    hintEl.textContent = "Note: After revealing, other options will lock forever (on this device/browser).";
+    resultEl.scrollIntoView({behavior:"smooth", block:"start"});
+  }
 
-function revealSurprise(){
+  function revealSurprise(){
+    if(locked || selectedOption === null) return;
 
-let message = "";
+    let message = "";
+    if(selectedOption === 1){
+      message = "Surprise… iPhone 📱❤️";
+    } else if(selectedOption === 2){
+      message = "A beautiful love message from my heart to yours ❤️";
+    } else if(selectedOption === 3){
+      message = "We are going for an overseas tour together ✈️❤️";
+    } else if(selectedOption === 4){
+      message = "I know you need iPhone 😄📱❤️";
+    }
 
-if(selectedOption == 1){
-message = "Surprise… iPhone 📱❤️";
-}
+    resultEl.innerHTML = message + "<br><br><b>That’s your surprise ❤️</b>";
+    hintEl.textContent = "Locked 🔒 — other options are now disabled.";
 
-if(selectedOption == 2){
-message = "A beautiful love message from my heart to yours ❤️";
-}
+    locked = true;
+    setLockedUI(selectedOption);
 
-if(selectedOption == 3){
-message = "We are going for an overseas tour together ✈️❤️";
-}
+    // persist lock in this browser (so refresh still stays locked)
+    try{
+      localStorage.setItem("valentine_locked", "1");
+      localStorage.setItem("valentine_choice", String(selectedOption));
+    }catch(e){}
+  }
 
-if(selectedOption == 4){
-message = "I know you need iPhone 😄📱❤️";
-}
+  // Restore lock state on refresh
+  (function restore(){
+    try{
+      const isLocked = localStorage.getItem("valentine_locked") === "1";
+      const choice = parseInt(localStorage.getItem("valentine_choice") || "", 10);
+      if(isLocked && choice >= 1 && choice <= 4){
+        selectedOption = choice;
+        locked = true;
+        setLockedUI(choice);
 
-document.getElementById("result").innerHTML = message;
+        // show revealed message again
+        let message = "";
+        if(choice === 1) message = "Surprise… iPhone 📱❤️";
+        if(choice === 2) message = "A beautiful love message from my heart to yours ❤️";
+        if(choice === 3) message = "We are going for an overseas tour together ✈️❤️";
+        if(choice === 4) message = "I know you need iPhone 😄📱❤️";
 
-}
+        resultEl.innerHTML = message + "<br><br><b>That’s your surprise ❤️</b>";
+        hintEl.textContent = "Locked 🔒 — other options are disabled.";
+      }
+    }catch(e){}
+  })();
 
-// floating hearts
-function createHeart(){
-const heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="❤️";
-heart.style.left=Math.random()*100+"vw";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-}
-setInterval(createHeart,500);
+  // =========================
+  //  FLOATING HEARTS
+  // =========================
+  function createHeart(){
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (16 + Math.random()*16).toFixed(0) + "px";
+    heart.style.animationDuration = (5 + Math.random()*4).toFixed(1) + "s";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(), 9000);
+  }
+  setInterval(createHeart, 500);
 
-// play music on first click
-document.body.addEventListener("click",()=>{
-document.getElementById("music").play().catch(()=>{});
-},{once:true});
-
+  // =========================
+  //  MUSIC (plays on first click)
+  // =========================
+  const music = document.getElementById("music");
+  document.body.addEventListener("click", () => {
+    music.play().catch(()=>{});
+  }, { once:true });
 </script>
 
 </body>
